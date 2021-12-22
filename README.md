@@ -1,3 +1,7 @@
+# Computer Vision: Object Detection and Depth
+This project uses the yolo object detection network to detect objects in front of a moving vehicle. For each object, the distance was measured using stereo image pairs in combination with either semi-global block matching (SGBM) or sparse depth sensing.
+
+## Instructions
 Extract the source folder to any directory.
 
 It is recommended that you use an Anaconda environment with python 3.7 and the following modules installed:
