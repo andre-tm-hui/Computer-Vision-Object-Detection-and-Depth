@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hand HCI Test</title>
+<script>
+	var startTime;
+	var elapsed;
+	var scrollDir;
+	var clickType;
+	var waitScroll;
+
+	var iter = 19;
+
+	function startTimer(){
+		var d = new Date();
+		startTime = d.getTime();
+		console.log(startTime)
+		loop();
+		return true;
+	}
+	function stopTimer(){
+		var d = new Date();
+		elapsed = d.getTime() - startTime;
+		return true;
+	}
+	function loop(){
+		var left = (Math.random() * window.innerWidth * 0.6 + 0.2 * window.innerWidth).toFixed().toString();
+		var top = (Math.random() * window.innerHeight * 0.6 + 0.2 * window.innerHeight).toFixed().toString();
+		var buttonSize = "150px";
+
+		scrollDir = "Scroll UP";
+		clickType = "Left Click"
+		if(Math.random() > 0.5){
+			scrollDir = "Scroll DOWN";
+		}
+		if(Math.random() > 0.5){
+			clickType = "Right Click";
+		}
+		document.getElementById("main").innerHTML = "<button style='position:relative; left:"+left+"px; top:"+top+"px; width:"+buttonSize+"; height:"+buttonSize+"; font-size:30px' onmousedown='clicked(event)'>"+clickType+"</button>"
+	}
+	function clicked(event){
+		if(event.which == 1 && clickType === "Left Click"){
+			document.getElementById("main").innerHTML = "<header style='text-align: center'><h1>"+scrollDir+"</h1></header>";
+			waitScroll = true;
+		} else if(event.which == 3 && clickType === "Right Click"){
+			document.getElementById("main").innerHTML = "<header style='text-align: center'><h1>"+scrollDir+"</h1></header>";
+			waitScroll = true;
+		}
+	}
+	window.addEventListener("wheel", function(e){
+		if(waitScroll){
+			if((e.deltaY < 0 && scrollDir === "Scroll UP") || (e.deltaY > 0 && scrollDir === "Scroll DOWN")){
+				if(iter > 0){
+					loop()
+					waitScroll = false;
+					iter--;
+				} else {
+					stopTimer();
+					document.getElementById("main").innerHTML = "<header  style='text-align:center'><h1>Elapsed Time: "+elapsed.toString()+"ms</h1></header>";
+				}
+			}
+		}
+	})
+	window.addEventListener("contextmenu", function(e){
+		e.preventDefault();
+	}, false);
+</script>
+</head>
+<body>
+<div id='main'>
+	<button style='position:relative; width:150px; height:150px' onclick='startTimer()'>Start Test</button>
+</div>
+</body>
+</html> 
